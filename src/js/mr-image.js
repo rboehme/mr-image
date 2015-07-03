@@ -7,6 +7,7 @@ app.directive('mrImage', function() {
         scope: {
             src: '=mrSrc',
             maxWidth: '=?mrMaxWidth',
+            maxHeight: '=?mrMaxHeight',
             aspectRatio: '=?mrAspectRatio',
             scale: '=?mrScale',
             drawer: '=?mrDrawer',
@@ -28,8 +29,11 @@ app.directive('mrImage', function() {
                         scope.height = scope.height || scope.image.height;
                         scope.width = scope.width || scope.image.width;
 
-                        if (angular.isUndefined(scope.scale) && angular.isDefined(scope.maxWidth)) {
+                        if (angular.isUndefined(scope.scale) && angular.isDefined(scope.maxWidth) && scope.width > scope.height) {
                             scope.scale = scope.maxWidth >= scope.width ? 1 : scope.maxWidth / scope.width;
+                        }
+                        else if (angular.isUndefined(scope.scale) && angular.isDefined(scope.maxHeight)) {
+                            scope.scale = scope.maxHeight >= scope.height ? 1 : scope.maxHeight / scope.height;
                         }
                         else {
                             scope.scale = scope.scale || 1;
